@@ -27,8 +27,8 @@ public class lab_1 {
         
         System.out.println("List of numbers: " + numbers); //list of all numbers
         
-        List<Integer> integerNumbers = new ArrayList<>(); //a new array list to store integers
-        List<String> floatNumbers = new ArrayList<>(); //a new array list to store formatted string numbers
+        List<Integer> integerNumbers = new ArrayList<>();
+        List<String> floatNumbers = new ArrayList<>();
         
 
         DecimalFormat df = new DecimalFormat("#.00"); //pattern to format numbers to two decimal places
