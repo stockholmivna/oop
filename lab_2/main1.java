@@ -7,29 +7,29 @@ abstract class Document {
         this.title = title;
     }
 
-    public abstract void open();
-    public abstract void edit();
-    public abstract void save();
+
+    public void processDocument() {
+        open();
+        edit();
+        save();
+    }
+
+    protected void open() {
+        System.out.println("Opening document: " + title);
+    }
+
+    protected void edit() {
+        System.out.println("Editing document: " + title);
+    }
+
+    protected void save() {
+        System.out.println("Saving document: " + title);
+    }
 }
 
 class TextDocument extends Document {
     public TextDocument(String title) {
         super(title);
-    }
-
-    @Override
-    public void open() {
-        System.out.println("Opening text document: " + title);
-    }
-
-    @Override
-    public void edit() {
-        System.out.println("Editing text document: " + title);
-    }
-
-    @Override
-    public void save() {
-        System.out.println("Saving text document: " + title);
     }
 }
 
@@ -37,41 +37,11 @@ class SpreadsheetDocument extends Document {
     public SpreadsheetDocument(String title) {
         super(title);
     }
-
-    @Override
-    public void open() {
-        System.out.println("Opening spreadsheet document: " + title);
-    }
-
-    @Override
-    public void edit() {
-        System.out.println("Editing spreadsheet document: " + title);
-    }
-
-    @Override
-    public void save() {
-        System.out.println("Saving spreadsheet document: " + title);
-    }
 }
 
 class PresentationDocument extends Document {
     public PresentationDocument(String title) {
         super(title);
-    }
-
-    @Override
-    public void open() {
-        System.out.println("Opening presentation document: " + title);
-    }
-
-    @Override
-    public void edit() {
-        System.out.println("Editing presentation document: " + title);
-    }
-
-    @Override
-    public void save() {
-        System.out.println("Saving presentation document: " + title);
     }
 }
 
@@ -81,47 +51,50 @@ public class main1 {
         boolean exit = false;
 
         while (!exit) {
-            System.out.println("\nSelect the type of document to create:");
-            System.out.println("1 - Text Document");
-            System.out.println("2 - Spreadsheet Document");
-            System.out.println("3 - Presentation Document");
-            System.out.println("0 - Exit");
+
+            printMenu();
 
             int choice = scanner.nextInt();
             scanner.nextLine(); 
 
             if (choice == 0) {
-                exit = true; 
+                exit = true;
                 System.out.println("Exiting the program.");
             } else {
-                System.out.print("Enter the title of the document: ");
-                String title = scanner.nextLine();
-
-                Document document = null;
-
-                switch (choice) {
-                    case 1:
-                        document = new TextDocument(title);
-                        break;
-                    case 2:
-                        document = new SpreadsheetDocument(title);
-                        break;
-                    case 3:
-                        document = new PresentationDocument(title);
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please select 1, 2, or 3.");
-                        continue; 
-                }
-
+                Document document = createDocument(choice, scanner);
                 if (document != null) {
-                    document.open();
-                    document.edit();
-                    document.save();
+                    document.processDocument();
+                } else {
+                    System.out.println("Invalid choice. Please select a valid document type.");
                 }
             }
         }
 
         scanner.close();
+    }
+
+    private static void printMenu() {
+        System.out.println("\nSelect the type of document to create:");
+        System.out.println("1 - Text Document");
+        System.out.println("2 - Spreadsheet Document");
+        System.out.println("3 - Presentation Document");
+        System.out.println("0 - Exit");
+    }
+
+    // Метод для створення документа в залежності від вибору користувача
+    private static Document createDocument(int choice, Scanner scanner) {
+        System.out.print("Enter the title of the document: ");
+        String title = scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                return new TextDocument(title);
+            case 2:
+                return new SpreadsheetDocument(title);
+            case 3:
+                return new PresentationDocument(title);
+            default:
+                return null;
+        }
     }
 }
