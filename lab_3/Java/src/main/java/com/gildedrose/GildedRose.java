@@ -21,6 +21,12 @@ class GildedRose {
         }
     }
 
+    private void decreaseQuality(Item item) {
+        if (item.quality > 0 && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            item.quality -= 1;
+        }
+    }
+
     //New method selIn to avoid nested logic
     private void updateSellIn(Item item) { //we use the same logic as before, selIn decrease by 1 for every item except Sulfuras
         if (!item.name.equals("Sulfuras, Hand of Ragnaros")) { 
@@ -36,16 +42,9 @@ class GildedRose {
         } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             increaseQuality(item);
         } else {
-                    decreaseQuality(item); //i will add a new method soon
+                    decreaseQuality(item);
                 }
             }
-
-        private void decreaseQuality(Item item) {
-            if (item.quality > 0 && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.quality -= 1;
-            }
-        }
-    }
 
 //i add new method to avoid nested logic
 private void updateItemQuality(Item item) {
