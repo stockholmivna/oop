@@ -81,7 +81,6 @@ public class main1 {
         System.out.println("0 - Exit");
     }
 
-    // Метод для створення документа в залежності від вибору користувача
     private static Document createDocument(int choice, Scanner scanner) {
         System.out.print("Enter the title of the document: ");
         String title = scanner.nextLine();
