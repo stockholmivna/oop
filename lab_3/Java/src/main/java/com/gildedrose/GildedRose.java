@@ -46,27 +46,23 @@ class GildedRose {
                 }
             }
 
-//i add new method to avoid nested logic
+//i chsnged this method to make it simpler and of course to avoid nested logic
 private void updateItemQuality(Item item) {
-        if (!item.name.equals("Aged Brie") 
-        && !item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            if (item.quality > 0 && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
-                item.quality -= 1;
-            }
-        } else {
-            if (item.quality < 50) { 
-                item.quality += 1;
-
-                if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) { 
-                    if (item.sellIn < 11 && item.quality < 50) { 
-                        item.quality += 1;
-                    }
-                    if (item.sellIn < 6 && item.quality < 50) {
-                        item.quality += 1;
-                    }
-                }
-            }
-        }
+    if (isSpecialItem(item)) {
+        increaseQuality(item);
+        handleBackstagePasses(item);  //i will add new method to handle BackstagePasses
+    } else {
+        decreaseQuality(item);
     }
 }
 
+private void handleBackstagePasses(Item item) {
+    if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        if (item.sellIn < 11) {
+            increaseQuality(item);
+        }
+        if (item.sellIn < 6) {
+            increaseQuality(item);
+        }
+    }
+}
