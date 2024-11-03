@@ -48,7 +48,7 @@ class GildedRose {
 
 //i chsnged this method to make it simpler and of course to avoid nested logic
 private void updateItemQuality(Item item) {
-    if (isSpecialItem(item)) {
+    if (SpecialItem(item)) {
         increaseQuality(item);
         handleBackstagePasses(item);  //i will add new method to handle BackstagePasses
     } else {
@@ -65,4 +65,9 @@ private void handleBackstagePasses(Item item) {
             increaseQuality(item);
         }
     }
+}
+
+private boolean SpecialItem(Item item) { //i add this method to check if the item is Aged Brie or BackstagePasses
+    return item.name.equals("Aged Brie") || item.name.equals("Backstage passes to a TAFKAL80ETC concert"); //it returns true if the item is Aged Brie or BackstagePasses
+}
 }
