@@ -2,7 +2,8 @@ class Quality {
     private int value;
 
     public Quality(int value) {
-        this.value = Math.min(50, Math.max(0, value));
+            this.value = Math.min(50, Math.max(0, value));
+        }
 
     public int getValue() {
         return value;

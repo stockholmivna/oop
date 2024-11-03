@@ -8,48 +8,64 @@ class GildedRose {
         }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            updateItemQuality(items[i]); //i call the new method to exchange the nested logic
-            updateSellIn(items[i]); //new method to update sellIn
-            handleExpiredItems(items[i]); //analogous to the previous method
+        for (Item item : items) {
+            updateItemQuality(item);
+            updateSellIn(item);
+            handleExpiredItems(item);
         }
     }
 
     private void increaseQuality(Item item) {
-        if (item.quality < 50) { //if quality is less than 50, we increase it by 1
-            item.quality += 1;
-        }
+        if (item.quality >= 50) return;
+        item.quality += 1;
     }
 
     private void decreaseQuality(Item item) {
-        if (item.quality > 0 && !item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            item.quality -= 1;
-        }
+        if (item.quality <= 0) return;
+        if (isSulfuras(item)) return;
+        item.quality -= 1;
     }
 
-    //New method selIn to avoid nested logic
-    private void updateSellIn(Item item) { //we use the same logic as before, selIn decrease by 1 for every item except Sulfuras
-        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+    private boolean isSulfuras(Item item) {
+        return item.name.equals("Sulfuras, Hand of Ragnaros");
+    }
+
+    
+    private boolean isAgedBrie(Item item) {
+        return item.name.equals("Aged Brie");
+    }
+
+    private boolean isBackstagePass(Item item) {
+        return item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+    }
+
+    private void updateSellIn(Item item) {
+        if (isSulfuras(item)) return;
         item.sellIn -= 1;
     }
-}
 
-    private void handleExpiredItems(Item item) { //new method to handle expired items
+    private void handleExpiredItems(Item item) {
         if (item.sellIn >= 0) return;
 
-        if (item.name.equals("Aged Brie")) { //condition for Aged Brie
+        if (isAgedBrie(item)) {
             increaseQuality(item);
-            return; //we get rid of the else statement and add return statement to return to the main method
-        }
-        
-        if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) { //condition for BackstagePasses
-            item.quality = 0;
             return;
         }
+
+        if (isBackstagePass(item)) {
+            resetQuality(item);
+            return;
+        }
+
+        decreaseQuality(item);
     }
 
-//i chsnged this method to make it simpler and of course to avoid nested logic
-private void updateItemQuality(Item item) {
+    private void resetQuality(Item item) {
+        item.quality = 0;
+    }
+    
+
+    private void updateItemQuality(Item item) {
     if (SpecialItem(item)) {
         increaseQuality(item);
         handleBackstagePasses(item);  //i will add new method to handle BackstagePasses
@@ -60,14 +76,10 @@ private void updateItemQuality(Item item) {
 }
 
 private void handleBackstagePasses(Item item) {
-    if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-        if (item.sellIn < 11) {
-            increaseQuality(item);
-        }
-        if (item.sellIn < 6) {
-            increaseQuality(item);
-        }
-    }
+    if (!isBackstagePass(item)) return;
+
+    if (item.sellIn < 11) increaseQuality(item);
+    if (item.sellIn < 6) increaseQuality(item);
 }
 
 private boolean SpecialItem(Item item) { //i add this method to check if the item is Aged Brie or BackstagePasses
